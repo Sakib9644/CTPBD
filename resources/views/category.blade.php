@@ -2,24 +2,27 @@
 
 @section('mainContent')
     <div class="container">
+
+        <a href="{{ route('categories.create') }}" class="btn btn-info mb-3">Add New Category</a>
         <div class="row row-gap-3">
-            @for($i=1; $i<10; $i++)
-            <div class="col-md-6">
-                <div class="single-category">
-                    <h3 class="fw-bold">Category Name</h3>
-                    <p class="m-0">Total Products: 12</p>
+
+            @foreach ($categories as $category)
+                <div class="col-md-6">
+                    <div class="single-category">
+                        <h3 class="fw-bold">{{ $category->category_name }}</h3>
+                        @foreach ($category->products as $product )
+                        <strong>Product Name:</strong> <p class="m-0">  {{ $product->product_name }}</p>
+                            <img src="{{ asset('uploads/products/'.$product->product_image) }}" alt="product Image" height="100px">
+                        @endforeach
+                    </div>
                 </div>
-            </div>
-            @endfor
-            <nav aria-label="Page navigation example">
-                <ul class="pagination">
-                    <li class="page-item"><a class="page-link" href="#">Previous</a></li>
-                    <li class="page-item"><a class="page-link" href="#">1</a></li>
-                    <li class="page-item"><a class="page-link" href="#">2</a></li>
-                    <li class="page-item"><a class="page-link" href="#">3</a></li>
-                    <li class="page-item"><a class="page-link" href="#">Next</a></li>
-                </ul>
-            </nav>
+            @endforeach
         </div>
+        <nav aria-label="Page navigation example">
+            <ul class="pagination">
+                <!-- Pagination links can be added here -->
+            </ul>
+        </nav>
+
     </div>
 @endsection

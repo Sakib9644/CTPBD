@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\ProfileUpdateRequest;
+use App\Models\Profile;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -14,11 +15,42 @@ class ProfileController extends Controller
     /**
      * Display the user's profile form.
      */
+    public function getImageUrl(Request $request)
+{
+    $imageUrl = auth()->user()->profile->image ?? null;
+
+    return response()->json(['imageUrl' => $imageUrl]);
+}
     public function edit(Request $request): View
     {
         return view('profile.edit', [
             'user' => $request->user(),
         ]);
+    }
+    public function store(Request $request)
+    {
+        $user = $request->user();
+        $profile = $user->profile;
+    
+        if (!$profile) {
+            $profile = new Profile();
+            $profile->user_id = $user->id;
+        }
+    
+        $avatar = $request->file('image');
+        if ($avatar != null) {
+            $imgAvatar = pathinfo($avatar->getClientOriginalName(), PATHINFO_FILENAME) . '-' . time() . '.' . $avatar->getClientOriginalExtension();
+            $avatar->move(public_path('/uploads/users/'), $imgAvatar);
+            $profile->image = $imgAvatar;
+        }
+    
+        $profile->save();
+    
+        return redirect()->back()->with('success', 'Profile image saved successfully.');
+    }
+    
+    public function show(){
+
     }
 
     /**
@@ -36,6 +68,7 @@ class ProfileController extends Controller
 
         return Redirect::route('profile.edit')->with('status', 'profile-updated');
     }
+
 
     /**
      * Delete the user's account.
