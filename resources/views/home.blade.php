@@ -30,9 +30,7 @@
                     </label>
                 </div>
 
-                <div>
-                    <button type="submit" class="btn btn-success">Upload</button>
-                </div>
+               
             </div>
         </div>
     </div>

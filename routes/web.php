@@ -78,6 +78,8 @@ Route::delete('/products/{product}', [ProductController::class, 'destroy'])->nam
 Route::resource('customers', CustomerController::class);
 
 Route::post('/profile/image-url', [ProfileController::class, 'getImageUrl'])->name('profile.image-url');
+Route::get('/products/search', 'ProductController@search')->name('products.search');
 
 
+// routes/web.php
 

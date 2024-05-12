@@ -9,12 +9,11 @@ class CategoryController extends Controller
 {
     // Display a listing of the categories.
     public function index()
-{
-    // dd(Category::all());
-    $categories = Category::all();
-    // dd($categories);
-    return view("category", compact("categories"));
-}
+    {
+        $categories = Category::paginate(20); // Change 10 to the number of categories you want to display per page
+        return view("category", compact("categories"));
+    }
+    
     // Show the form for creating a new category.
     public function create()
     {

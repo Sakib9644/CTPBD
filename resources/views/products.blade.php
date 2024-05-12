@@ -4,24 +4,22 @@
     <div class="">
         <a href="{{ route('products.create') }}" class="btn btn-info mb-sm-3">Add New Product</a>
 
-        <div class="products mb-3">
-            @foreach ($products as $product)
-                <div class="__single">
-                   
-                    <div class="row  row-gap-3">
-                        <div class="form-group ">
-                            <H4 for="">Product</H4>
-
-                            <p><strong>Product Name:</strong>{{ $product->product_name }}</p>
-                            <img src="{{ asset('uploads/products/'.$product->product_image) }}" alt="product Image" height="100px">
-
-                        </div>
-                 
-
-                    </div>
-                </div>
-            @endforeach
-        </div>
+        <table class="table table-striped table-bordered" id="systemDatatable">
+            <thead>
+                <tr>
+                    <th>Product Name</th>
+                    <th>Product Image</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach ($products as $product)
+                    <tr>
+                        <td>{{ $product->product_name }}</td>
+                        <td><img src="{{ asset('uploads/products/'.$product->product_image) }}" alt="product Image" height="100px"></td>
+                    </tr>
+                @endforeach
+            </tbody>
+        </table>
 
         <nav aria-label="Page navigation example mt-2">
             <ul class="pagination">
@@ -34,8 +32,18 @@
         </nav>
     </div>
 
-
     <script>
-        $("#imgSrc").attr('src', "https://ui-avatars.com/api/?background=random&color=fff&name={{ auth()->user()->name }}");
+        $(document).ready(function() {
+            $('#systemDatatable').DataTable({
+                dom: 'Bfrtip',
+                buttons: [
+                    'copyHtml5',
+                    'excelHtml5',
+                    'csvHtml5',
+                    'pdfHtml5',
+                    'print'
+                ]
+            });
+        });
     </script>
 @endsection

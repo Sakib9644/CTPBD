@@ -10,10 +10,22 @@ class ProductController extends Controller
     // Display a listing of the products.
     public function index()
     {
-        $products = Product::all();
+        $products = Product::all(); // Change 10 to the number of products you want to display per page
         return view('products', compact('products'));
     }
 
+    public function search(Request $request)
+    {
+        // Your search logic here, e.g., querying the database based on the search term
+        $searchTerm = $request->input('search');
+    
+        // Perform your search query, and return the results
+        $products = Product::where('product_name', 'like', '%'.$searchTerm.'%')->get();
+    
+        // Return the results as JSON
+        return response()->json($products);
+    }
+    
     // Show the form for creating a new product.
     public function create()
     {
